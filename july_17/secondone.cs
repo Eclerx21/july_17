@@ -43,13 +43,6 @@ class CountrySide
         CountrySide a = new CountrySide();
         a.Run();
     }
-    Alst = new Node();
-    Schvenig = new Node();
-    Maeland = new Node();
-    Helmholtz = new Node();
-    Wessig = new Node();
-    Badden = new Node();
-    Uster = new Node();
 
     // Create the LinkedList to reflect the Map in the PowerPoint Instructions
     Village Maeland;
@@ -63,8 +56,6 @@ class CountrySide
     public void TraverseVillages(Village CurrentVillage)
     {
         if (Hugi.FoundAstrilde) return;
-
-        // Here Hugi records his travels, as any Norse Hero will do:
         Hugi.HugiJournal.Add(new JournalEntry(CurrentVillage.VillageName, CurrentVillage.distanceFromPreviousVillage));
         try
         {
@@ -77,36 +68,35 @@ class CountrySide
                 Console.WriteLine("Astrilde, I walked {0} vika to find you. Will you marry me?", Hugi.CalculateDistanceWalked());
                 Hugi.FoundAstrilde = true;
             }
-            TraverseVillages(Village CurrentVillage.east);
-            TraverseVillages(Village CurrentVillage.west);
+            TraverseVillages(CurrentVillage.east);
+            TraverseVillages(CurrentVillage.west);
+
         }
         catch (NullReferenceException) { }
     }
 
     public void Run()
-
-      
     {
         Alst = new Village("Alst", false);
         Schvenig = new Village("Schvenig", false);
         Wessig = new Village("Wessig", false);
-        // TO DO: Complete this section
-
-        Maeland = new Village("Maeland", false);
+        Maeland = new Village("Maeland", true);
         Helmholtz = new Village("Helmholtz", false);
         Uster = new Village("Uster", true);
         Badden = new Village("Badden", false);
 
         Alst.VillageSetup(0, Schvenig, Wessig);
         Schvenig.VillageSetup(14, Maeland, Helmholtz);
-        Maeland.VillageSetup(9, null, null);
+        Maeland.VillageSetup(9, null, Helmholtz);
         Helmholtz.VillageSetup(28, null, null);
         Wessig.VillageSetup(19, Uster, Badden);
-        Uster.VillageSetup(29, null, null);
+        Uster.VillageSetup(28, null, null);
         Badden.VillageSetup(11, null, null);
 
-        this.TraverseVillage(Alst);
 
+        this.TraverseVillages(Alst);
+        this.Announcement();
+        Console.ReadLine();
     }
 
     public void Announcement()
@@ -158,5 +148,3 @@ class Village
     public int distanceFromPreviousVillage;
     public bool isAstrildgeHere;
 }
-
-
